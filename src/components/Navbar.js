@@ -54,12 +54,12 @@ export default function CustomNavbar() {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2" css={{ color: 'black' }}>
-              <p className="font-semibold">Connecté en tant que</p>
-              <p className="font-semibold">user@example.com</p>
+            <DropdownItem key="profile" className="h-14 gap-2" className="text-black">
+              <p className="font-semibold text-black">Connecté en tant que</p>
+              <p className="font-semibold text-black">user@example.com</p>
             </DropdownItem>
-            <DropdownItem key="help_and_feedback" css={{ color: 'black' }}>Assistance</DropdownItem>
-            <DropdownItem key="logout" color="danger" css={{ color: 'black' }}>Déconnexion</DropdownItem>
+            <DropdownItem key="help_and_feedback" className="text-black">Assistance</DropdownItem>
+            <DropdownItem key="logout" color="danger" className="text-black">Déconnexion</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
