@@ -48,38 +48,11 @@ export default function Login() {
     }
 
 
-    console.log(formData)
-    try {
-      // Inscrire l'utilisateur
+    // Afficher les données du formulaire dans la console
+    console.log('Form Data:', formData);
 
-      const { data, error } = await supabase.auth.signUp(
-        {
-          email: email,
-          password: password,
-          options: {
-            data: {
-              phone: phone,
-              birthDate: birthDate,
-              name: name,
-              cni : cni,
-              acceptTerms: acceptTerms,
-            }
-          }
-        }
-      )
-
-      console.log(data)
-      if (error) {
-        console.error('Error signing up:', error.message);
-        alert(`Error signing up: ${error.message}`);
-        return;
-      }
-
-      alert('Inscription réussie');
-    } catch (err) {
-      console.error('Unexpected error:', err);
-      alert('An unexpected error occurred. Please try again.');
-    }
+    // Rediriger vers la page de vote
+    router.push('/vote');
   };
 
 
@@ -182,7 +155,7 @@ export default function Login() {
                   J'accepte les <a href="/terms" style={styles.link}>conditions de vote</a>
                 </label>
               </div>
-              <Button type="submit" style={styles.button}>Login</Button>
+              <Button type="submit" style={styles.button}>Se connecter</Button>
               <Button onClick={handlePreviousStep} style={styles.button}>
                 Précédent
               </Button>
