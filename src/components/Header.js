@@ -17,7 +17,7 @@ export default function Header() {
                     Rejoignez-nous pour écrire l'histoire en participant à un processus de vote transparent et fiable. Votre voix compte !
 
                 </p>
-                <Button href="/vote" size="lg" shadow color="gradient" style={{ marginTop: '30px', backgroundColor: 'white', color: 'black' }}>
+                <Button href="/vote/mon-vote" size="lg" shadow color="gradient" style={{ marginTop: '30px', backgroundColor: 'white', color: 'black' }}>
                     Je vote maintenant
                 </Button>
             </div>

@@ -49,7 +49,7 @@ export default function CustomNavbar() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} className={`text-white` } color="primary" href="/vote" variant="flat">
+          <Button as={Link} className={`text-white` } color="primary" href="/vote/mon-vote" variant="flat">
             Vote
           </Button>
         </NavbarItem>

@@ -69,7 +69,7 @@ const CountdownTimer = ({ hoursMinSecs }) => {
 const VoteResults = () => {
   return (
     <div style={styles.resultsContainer}>
-      <h2 style={styles.resultsTitle}>Résultats des votes</h2>
+      <h2 style={styles.resultsTitle}>Résultats en temps réel des votes</h2>
         {/* <p style={styles.resultsSubtitle}>Découvrez les résultats des votes en temps réel.</p> */}
       <div style={styles.resultsList}>
         {candidates.map((candidate, index) => (

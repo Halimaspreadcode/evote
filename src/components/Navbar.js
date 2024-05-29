@@ -1,16 +1,21 @@
 // src/components/CustomNavbar.js
 'use client';
 
-import React, { useState } from "react";
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Dropdown, DropdownMenu, DropdownTrigger, Avatar, DropdownItem } from "@nextui-org/react";
-import { AcmeLogo } from "./AcmeLogo";
+import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/router';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Dropdown, DropdownMenu, DropdownTrigger, Avatar, DropdownItem } from "@nextui-org/react";
 
 export default function CustomNavbar() {
-  const [activeLink, setActiveLink] = useState("Customers");
+  const router = useRouter();
+  const [activeLink, setActiveLink] = useState("");
 
-  const handleSetActiveLink = (link) => {
-    setActiveLink(link);
-  };
+  useEffect(() => {
+    if (router.pathname.includes("candidat")) {
+      setActiveLink("Candidat");
+    } else if (router.pathname.includes("mon-vote")) {
+      setActiveLink("MonVote");
+    }
+  }, [router.pathname]);
 
   return (
     <Navbar isBordered isBlurred={false} style={{ padding: 20 }}>
@@ -22,8 +27,6 @@ export default function CustomNavbar() {
           <Link
             className={`text-white ${activeLink === "Candidat" ? "bg-blue-300 text-white p-2 pr-3 pl-3 rounded-md" : ""}`}
             href="/vote/candidat"
-            onClick={() => handleSetActiveLink("Candidat")}
-            aria-current={activeLink === "Candidat" ? "page" : undefined}
           >
             Candidat
           </Link>
@@ -32,8 +35,6 @@ export default function CustomNavbar() {
           <Link
             className={`text-white ${activeLink === "MonVote" ? "bg-blue-300 text-white p-2 pr-3 pl-3 rounded-md" : ""}`}
             href="/vote/mon-vote"
-            onClick={() => handleSetActiveLink("MonVote")}
-            aria-current={activeLink === "MonVote" ? "page" : undefined}
           >
             Mon vote
           </Link>
@@ -53,24 +54,15 @@ export default function CustomNavbar() {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2" style={dropdownStyles}>
+            <DropdownItem key="profile" className="h-14 gap-2" css={{ color: 'black' }}>
               <p className="font-semibold">Connecté en tant que</p>
               <p className="font-semibold">user@example.com</p>
             </DropdownItem>
-            
-            <DropdownItem key="help_and_feedback" style={dropdownStyles}>Assistance</DropdownItem>
-            <DropdownItem key="logout" color="danger" style={dropdownStyles}>Deconnexion</DropdownItem>
+            <DropdownItem key="help_and_feedback" css={{ color: 'black' }}>Assistance</DropdownItem>
+            <DropdownItem key="logout" color="danger" css={{ color: 'black' }}>Déconnexion</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </NavbarContent>
     </Navbar>
   );
 }
-
-const dropdownStyles = {
-  color: 'black',
-  hover: {
-    backgroundColor: 'black',
-    color: 'white',
-  },
-};
