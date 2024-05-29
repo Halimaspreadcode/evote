@@ -6,7 +6,7 @@ import { Stepper, Step, StepLabel } from '@mui/material';
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    email: '',
+    email: 'example@gmail.com',
     password: '',
     phone: '',
     name: '',
@@ -125,17 +125,8 @@ export default function Login() {
                 style={styles.input}
               />
               <Input
-                type="email"
-                placeholder="Email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                style={styles.input}
-              />
-              <Input
                 type="password"
-                placeholder="Mot de passe"
+                placeholder="N° carte électeur"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}

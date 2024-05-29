@@ -1,7 +1,7 @@
 // src/pages/candidat.js
 import React, { useState } from 'react';
 import { Container, Image, Button, Card } from '@nextui-org/react';
-import CustomNavbar from '../../components/CustomNavbar';
+import CustomNavbar from '@/components/CustomNavbar';
 
 export default function Candidat() {
   const [selectedCandidate, setSelectedCandidate] = useState(null);

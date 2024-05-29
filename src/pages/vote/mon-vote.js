@@ -140,9 +140,9 @@ export default function MonVote() {
               <button style={styles.submitButton}>Valider mon Vote</button>
             </div>
           </div>
-          <div style={styles.rightSection}>
+          {/* <div style={styles.rightSection}>
             <VoteResults />
-          </div>
+          </div> */}
         </div>
       </div>
     </>
@@ -208,6 +208,7 @@ const styles = {
     fontSize: '24px',
     textAlign: 'center',
     marginTop: '30px',
+    fontWeight: 'bold',
     color: 'black',
   },
   candidateList: {
