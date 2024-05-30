@@ -10,6 +10,7 @@ export default function Home() {
       <CustomNavbar />
       <Header />
       <Accordeon />
+
       <Footer />
 
     </div>

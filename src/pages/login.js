@@ -15,6 +15,7 @@ export default function Login() {
     acceptTerms: false,
   });
   const [step, setStep] = useState(0);
+  const [otp, setOtp] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -47,16 +48,21 @@ export default function Login() {
       return;
     }
 
-
     // Afficher les données du formulaire dans la console
     console.log('Form Data:', formData);
+
+    // Passer à l'étape suivante
+    handleNextStep();
+  };
+
+  const handleOtpSubmit = () => {
+    console.log('OTP Submitted:', otp);
 
     // Rediriger vers la page de vote
     router.push('/vote');
   };
 
-
-  const steps = ['Informations Personnelles', 'Informations de Connexion'];
+  const steps = ['Informations Personnelles', 'Informations de Connexion', 'Vérification'];
 
   return (
     <div style={styles.container}>
@@ -125,7 +131,7 @@ export default function Login() {
                 style={styles.input}
               />
               <Input
-                type="password"
+                type="text"
                 placeholder="N° carte électeur"
                 name="password"
                 value={formData.password}
@@ -146,11 +152,33 @@ export default function Login() {
                   J'accepte les <a href="/terms" style={styles.link}>conditions de vote</a>
                 </label>
               </div>
-              <Button type="submit" style={styles.button}>Se connecter</Button>
+              <Button type="submit" style={styles.button}>
+                Suivant
+              </Button>
               <Button onClick={handlePreviousStep} style={styles.button}>
                 Précédent
               </Button>
             </form>
+          )}
+          {step === 2 && (
+            <div style={styles.verificationContainer}>
+              <h3>Vérification</h3>
+              <p>Veuillez entrer le code OTP envoyé à votre téléphone.</p>
+              <Input
+                type="text"
+                placeholder="Code OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                required
+                style={styles.input}
+              />
+              <Button onClick={handleOtpSubmit} style={styles.button}>
+                Soumettre
+              </Button>
+              <Button onClick={handlePreviousStep} style={styles.button}>
+                Précédent
+              </Button>
+            </div>
           )}
           <p style={styles.assistance}>Numéro d'assistance : +221 33 123 45 67</p>
         </div>
@@ -164,6 +192,7 @@ const styles = {
     display: 'flex',
     height: '100vh',
     alignItems: 'center',
+    justifyContent: 'center', // Assurer que le contenu est centré
   },
   leftContainer: {
     width: '50%',
@@ -268,5 +297,10 @@ const styles = {
   assistance: {
     marginTop: '20px',
     color: '#888',
+  },
+  verificationContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 };

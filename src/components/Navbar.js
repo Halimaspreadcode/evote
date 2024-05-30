@@ -54,7 +54,7 @@ export default function CustomNavbar() {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2" className="text-black">
+            <DropdownItem key="profile" className="h-14 gap-2 text-black">
               <p className="font-semibold text-black">Connecté en tant que</p>
               <p className="font-semibold text-black">user@example.com</p>
             </DropdownItem>
