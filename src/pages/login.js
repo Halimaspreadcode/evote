@@ -3,12 +3,12 @@ import { useRouter } from 'next/router';
 import { supabase } from '@/utils/supabaseClient';
 import { Container, Image, Button, Input } from '@nextui-org/react';
 import { Stepper, Step, StepLabel } from '@mui/material';
-
+import { inscription, verifyOTP } from '@/services/auth';
 export default function Login() {
   const [formData, setFormData] = useState({
     email: 'example@gmail.com',
-    password: '',
-    phone: '',
+    ElecNumber: '',
+    phoneNumber: '',
     name: '',
     birthDate: '',
     cni: '',
@@ -21,6 +21,7 @@ export default function Login() {
   useEffect(() => {
     console.log('formData updated:', formData);
   }, [formData]);
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -40,26 +41,65 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const { email, password, phone, name, birthDate, cni, acceptTerms } = formData;
+    const { email, ElecNumber, phoneNumber, name, birthDate, cni, acceptTerms } = formData;
 
     // Vérifier que tous les champs sont remplis
-    if (!email || !password || !phone || !name || !birthDate || !cni || !acceptTerms) {
+    if (!email || !ElecNumber || !phoneNumber || !name || !birthDate || !cni || !acceptTerms) {
       alert('Veuillez remplir tous les champs requis.');
       return;
     }
+    else {
+      //Inscrire l'utilisateur
+      const { data, error } = await inscription(
+        `+221${formData.phoneNumber}`,
+        name,
+        cni,
+        birthDate,
+        acceptTerms,
+        ElecNumber
+      );
+
+      console.log('Data in signin:', data);
+
+      if (error) {
+        console.error('Error in signing in:', error);
+        alert('Une erreur s\'est produite lors de l\'inscription.', error.message);
+        return;
+      }
+      else {
+        handleNextStep();
+        console.log('Data in signin successfully:', data);
+        alert('Inscription réussie! Veuillez vérifier votre téléphone pour le code OTP.');
+      }
+
+      // Vérifier si l'inscription a réussi
+
+
+    }
+
+
 
     // Afficher les données du formulaire dans la console
     console.log('Form Data:', formData);
 
-    // Passer à l'étape suivante
-    handleNextStep();
   };
 
-  const handleOtpSubmit = () => {
-    console.log('OTP Submitted:', otp);
-
-    // Rediriger vers la page de vote
-    router.push('/vote');
+  const handleVerifyOTP = async () => {
+    if (otp.length === 6) {
+      const { data, error } = await verifyOTP(`+221${formData.phoneNumber}`, otp);
+      if (error) {
+        console.error('Error verifying OTP:', error);
+        alert('Erreur lors de la vérification du code OTP.', error.message);
+        return;
+      }
+      else {
+        console.log('Data in verifying OTP:', data);
+        alert('Code OTP vérifié avec succès!');
+        router.push('/vote/mon-vote');
+      }
+    } else {
+      alert('** Veuillez saisir un code de vérification valide.');
+    }
   };
 
   const steps = ['Informations Personnelles', 'Informations de Connexion', 'Vérification'];
@@ -124,8 +164,8 @@ export default function Login() {
               <Input
                 type="text"
                 placeholder="Numéro de téléphone"
-                name="phone"
-                value={formData.phone}
+                name="phoneNumber"
+                value={formData.phoneNumber}
                 onChange={handleChange}
                 required
                 style={styles.input}
@@ -133,8 +173,8 @@ export default function Login() {
               <Input
                 type="text"
                 placeholder="N° carte électeur"
-                name="password"
-                value={formData.password}
+                name="ElecNumber"
+                value={formData.ElecNumber}
                 onChange={handleChange}
                 required
                 style={styles.input}
@@ -152,7 +192,7 @@ export default function Login() {
                   J'accepte les <a href="/terms" style={styles.link}>conditions de vote</a>
                 </label>
               </div>
-              <Button type="submit" style={styles.button}>
+              <Button type="submit" onClick={handleLogin} style={styles.button}>
                 Suivant
               </Button>
               <Button onClick={handlePreviousStep} style={styles.button}>
@@ -172,11 +212,8 @@ export default function Login() {
                 required
                 style={styles.input}
               />
-              <Button onClick={handleOtpSubmit} style={styles.button}>
-                Soumettre
-              </Button>
-              <Button onClick={handlePreviousStep} style={styles.button}>
-                Précédent
+              <Button onClick={handleVerifyOTP} style={styles.button}>
+                Valider
               </Button>
             </div>
           )}
@@ -300,6 +337,10 @@ const styles = {
   },
   verificationContainer: {
     display: 'flex',
+    backgroundColor: '#eeee',
+    margin: 10,
+    padding: 70,
+    borderRadius: '14px',
     flexDirection: 'column',
     alignItems: 'center',
   },
