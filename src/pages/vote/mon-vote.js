@@ -5,16 +5,15 @@ import { useRouter } from 'next/router';
 import { getCandidates, voteForCandidate } from '@/services/voteServices';
 
 import '@/app/globals.css';
-import { color } from 'framer-motion';
 
 const CountdownTimer = ({ hoursMinSecs }) => {
   const { hours = 0, minutes = 0, seconds = 0 } = hoursMinSecs;
   const [[hrs, mins, secs], setTime] = useState([hours, minutes, seconds]);
-  
+
   const tick = () => {
-    if (hrs === 0 && mins === 0 && secs === 0)
+    if (hrs === 0 && mins === 0 && secs === 0) {
       reset();
-    else if (mins === 0 && secs === 0) {
+    } else if (mins === 0 && secs === 0) {
       setTime([hrs - 1, 59, 59]);
     } else if (secs === 0) {
       setTime([hrs, mins - 1, 59]);
@@ -25,9 +24,10 @@ const CountdownTimer = ({ hoursMinSecs }) => {
 
   const reset = () => setTime([hours, minutes, seconds]);
 
-  const router = useRouter();
-
-
+  useEffect(() => {
+    const timerId = setInterval(() => tick(), 1000);
+    return () => clearInterval(timerId);
+  }, [hrs, mins, secs]);
 
   return (
     <div style={styles.timerContainer}>
@@ -51,9 +51,7 @@ export default function MonVote() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [phone, setPhone] = useState(null);
-  const [storedUser, setStoredUser] = useState(null);
   const [candidats, setCandidats] = useState([]);
-
 
   const handleSelectCandidate = (id) => {
     setSelectedCandidate(id);
@@ -65,28 +63,25 @@ export default function MonVote() {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
-      setPhone("+"+parsedUser.phone);
+      setPhone("+" + parsedUser.phone);
 
-      // get all candidates
       const fetchCandidates = async () => {
         const data = await getCandidates();
         setCandidats(data);
-      }
+      };
 
       fetchCandidates();
-
     } else {
       console.log("No user found in local storage in mon-vote");
     }
   }, [router]);
-
 
   const handleVote = async () => {
     if (!selectedCandidate) {
       alert('Veuillez sélectionner un candidat');
       return;
     }
-  
+
     try {
       await voteForCandidate(phone, selectedCandidate);
       alert('Vote effectué avec succès');
@@ -95,8 +90,6 @@ export default function MonVote() {
       console.error('Error voting for candidate:', error.message);
     }
   };
-  
-  
 
   return (
     <>
@@ -119,7 +112,7 @@ export default function MonVote() {
                 >
                   <Image
                     src={candidat.url_image}
-                    alt={candidats.name}
+                    alt={candidat.name}
                     style={styles.candidateImage}
                   />
                   <div style={styles.candidateInfo}>
