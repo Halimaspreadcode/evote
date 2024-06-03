@@ -11,14 +11,13 @@ const Footer = () => {
         
         <div>
           <h4>Contact</h4>
-          <p>support@voteplatform.sn</p>
+          <p style={{ fontSize : '1em'}}>support@sunuvote.sn</p>
           <p>+221 33 123 45 67</p>
         </div>
         <div style={{ paddingRight : 10, paddingLeft : 30}}>
-          <h4>Follow Us</h4>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <h4 style={{ fontWeight : 'bolder'}}>Follow Us</h4>
+          <div style={{ display: 'flex', gap: '2px', flexDirection: 'column'}}>
             <a href="#" aria-label="Facebook" style={{ color: 'white', textDecoration: 'none' }}>Facebook</a>
-            <a href="#" aria-label="Twitter" style={{ color: 'white', textDecoration: 'none' }}>Twitter</a>
             <a href="#" aria-label="Instagram" style={{ color: 'white', textDecoration: 'none' }}>Instagram</a>
           </div>
         </div>

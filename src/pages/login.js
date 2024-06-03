@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { supabase } from '@/utils/supabaseClient';
 import { Container, Image, Button, Input } from '@nextui-org/react';
 import { Stepper, Step, StepLabel } from '@mui/material';
 import { inscription, verifyOTP } from '@/services/auth';
+
 export default function Login() {
   const [formData, setFormData] = useState({
     email: 'example@gmail.com',
@@ -17,11 +18,6 @@ export default function Login() {
   const [step, setStep] = useState(0);
   const [otp, setOtp] = useState('');
   const router = useRouter();
-
-  useEffect(() => {
-    console.log('formData updated:', formData);
-  }, [formData]);
-
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -47,9 +43,8 @@ export default function Login() {
     if (!email || !ElecNumber || !phoneNumber || !name || !birthDate || !cni || !acceptTerms) {
       alert('Veuillez remplir tous les champs requis.');
       return;
-    }
-    else {
-      //Inscrire l'utilisateur
+    } else {
+      // Inscrire l'utilisateur
       const { data, error } = await inscription(
         `+221${formData.phoneNumber}`,
         name,
@@ -59,29 +54,15 @@ export default function Login() {
         ElecNumber
       );
 
-      console.log('Data in signin:', data);
-
       if (error) {
         console.error('Error in signing in:', error);
         alert('Une erreur s\'est produite lors de l\'inscription.', error.message);
         return;
-      }
-      else {
+      } else {
         handleNextStep();
-        console.log('Data in signin successfully:', data);
         alert('Inscription réussie! Veuillez vérifier votre téléphone pour le code OTP.');
       }
-
-      // Vérifier si l'inscription a réussi
-
-
     }
-
-
-
-    // Afficher les données du formulaire dans la console
-    console.log('Form Data:', formData);
-
   };
 
   const handleVerifyOTP = async () => {
@@ -92,8 +73,8 @@ export default function Login() {
         alert('Erreur lors de la vérification du code OTP.', error.message);
         return;
       }
+
       else {
-        console.log('Data in verifying OTP:', data);
         alert('Code OTP vérifié avec succès!');
         router.push('/vote/mon-vote');
       }
@@ -103,6 +84,7 @@ export default function Login() {
   };
 
   const steps = ['Informations Personnelles', 'Informations de Connexion', 'Vérification'];
+
 
   return (
     <div style={styles.container}>
@@ -145,7 +127,7 @@ export default function Login() {
                 required
                 style={styles.input}
               />
-              <Button onClick={handleNextStep} style={styles.button}>
+              <Button onPress={handleNextStep} style={styles.button}>
                 Suivant
               </Button>
             </form>
@@ -192,10 +174,10 @@ export default function Login() {
                   J'accepte les <a href="/terms" style={styles.link}>conditions de vote</a>
                 </label>
               </div>
-              <Button type="submit" onClick={handleLogin} style={styles.button}>
+              <Button type="submit" onPress={handleLogin} style={styles.button}>
                 Suivant
               </Button>
-              <Button onClick={handlePreviousStep} style={styles.button}>
+              <Button onPress={handlePreviousStep} style={styles.button}>
                 Précédent
               </Button>
             </form>
@@ -212,7 +194,7 @@ export default function Login() {
                 required
                 style={styles.input}
               />
-              <Button onClick={handleVerifyOTP} style={styles.button}>
+              <Button onPress={handleVerifyOTP} style={styles.button}>
                 Valider
               </Button>
             </div>

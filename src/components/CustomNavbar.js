@@ -1,11 +1,20 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Image } from "@nextui-org/react";
 import { AcmeLogo } from "../components/AcmeLogo";
 
 export default function CustomNavbar() {
   const [activeLink, setActiveLink] = useState("Customers");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
 
   const handleSetActiveLink = (link) => {
     setActiveLink(link);
@@ -22,7 +31,7 @@ export default function CustomNavbar() {
           <Link
             className={`text-white ${activeLink === "Features" ? "bg-blue-300 text-white p-2 pr-3 pl-3 rounded-md" : ""}`}
             href="#"
-            onClick={() => handleSetActiveLink("Features")}
+            onPress={() => handleSetActiveLink("Features")}
           >
             Actualités
           </Link>
@@ -31,7 +40,7 @@ export default function CustomNavbar() {
           <Link
             className={`text-white ${activeLink === "Customers" ? "bg-blue-300 text-white p-2 pr-3 pl-3 rounded-md" : ""}`}
             href="/Ccm"
-            onClick={() => handleSetActiveLink("Customers")}
+            onPress={() => handleSetActiveLink("Customers")}
             aria-current={activeLink === "Customers" ? "page" : undefined}
           >
             Comment ça marche ?
@@ -41,7 +50,7 @@ export default function CustomNavbar() {
           <Link
             className={`text-white ${activeLink === "Integrations" ? "bg-blue-300 text-white p-2 pr-3 pl-3 rounded-md" : ""}`}
             href="#"
-            onClick={() => handleSetActiveLink("Integrations")}
+            onPress={() => handleSetActiveLink("Integrations")}
           >
             Assistance
           </Link>
@@ -49,7 +58,7 @@ export default function CustomNavbar() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} className={`text-white` } color="primary" href="/vote/mon-vote" variant="flat">
+          <Button as={Link} className={`text-white` } color="primary" href={user ? "/vote/mon-vote" : "/login"} variant="flat">
             Vote
           </Button>
         </NavbarItem>

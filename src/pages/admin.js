@@ -44,7 +44,7 @@ export default function Admin() {
         value={party}
         onChange={(e) => setParty(e.target.value)}
       />
-      <button onClick={addCandidate}>Ajouter</button>
+      <button onPress={addCandidate}>Ajouter</button>
       <h2>Liste des candidats</h2>
       <ul>
         {candidates.map((candidate) => (
