@@ -59,7 +59,7 @@ export const addCandidate = async (firstName, lastName, position, biography, pro
         const { data: userData, error: userError } = await supabase
             .from('users')
             .update({ Voted: true })
-            .eq('phone', phoneNumber); // Use the correct column name 'phone'
+            .eq('phoneNumber', phoneNumber); // Use the correct column name 'phone'
 
         if (userError) {
             console.error('Error updating user data:', userError);
@@ -112,7 +112,7 @@ export const addCandidate = async (firstName, lastName, position, biography, pro
         }
     };
 
-    
+
 export const getCandidateById = async (id) => {
     try {
       const { data, error } = await supabase

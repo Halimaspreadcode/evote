@@ -1,8 +1,11 @@
 "use client"
 import { supabase } from '@/utils/supabaseClient';
+import { useRouter } from 'next/router';
+
 
 // Inscrire un nouvel utilisateur avec OTP
 export const inscription = async (phoneNumber, name, cni, birthDate, acceptTerms, ElecNumber) => {
+    
   try {
     const { data, error } = await supabase.auth.signInWithOtp({
       phone: phoneNumber,
@@ -59,7 +62,7 @@ export const verifyOTP = async (phoneNumber, otp) => {
     }
     else {
       alert('Code OTP vérifié avec succès!');
-      router.push('/PhotoUpload'); // Redirect to the photo upload page
+      // router.push('/PhotoUpload');
     }
     
 

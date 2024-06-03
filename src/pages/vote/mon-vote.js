@@ -80,7 +80,6 @@ export default function MonVote() {
     }
   }, [router]);
 
-  console.log('phone', phone)
 
   const handleVote = async () => {
     if (!selectedCandidate) {

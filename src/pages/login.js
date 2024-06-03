@@ -39,12 +39,10 @@ export default function Login() {
     e.preventDefault();
     const { email, ElecNumber, phoneNumber, name, birthDate, cni, acceptTerms } = formData;
 
-    // Vérifier que tous les champs sont remplis
     if (!email || !ElecNumber || !phoneNumber || !name || !birthDate || !cni || !acceptTerms) {
       alert('Veuillez remplir tous les champs requis.');
       return;
     } else {
-      // Inscrire l'utilisateur
       const { data, error } = await inscription(
         `+221${formData.phoneNumber}`,
         name,
@@ -65,18 +63,17 @@ export default function Login() {
     }
   };
 
-  const handleVerifyOTP = async () => {
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
     if (otp.length === 6) {
       const { data, error } = await verifyOTP(`+221${formData.phoneNumber}`, otp);
       if (error) {
         console.error('Error verifying OTP:', error);
         alert('Erreur lors de la vérification du code OTP.', error.message);
         return;
-      }
-
-      else {
+      } else {
         alert('Code OTP vérifié avec succès!');
-        router.push('/vote/mon-vote');
+        router.push('/PhotoUpload');
       }
     } else {
       alert('** Veuillez saisir un code de vérification valide.');
@@ -84,7 +81,6 @@ export default function Login() {
   };
 
   const steps = ['Informations Personnelles', 'Informations de Connexion', 'Vérification'];
-
 
   return (
     <div style={styles.container}>
@@ -127,7 +123,7 @@ export default function Login() {
                 required
                 style={styles.input}
               />
-              <Button onPress={handleNextStep} style={styles.button}>
+              <Button onClick={handleNextStep} style={styles.button}>
                 Suivant
               </Button>
             </form>
@@ -174,16 +170,16 @@ export default function Login() {
                   J'accepte les <a href="/terms" style={styles.link}>conditions de vote</a>
                 </label>
               </div>
-              <Button type="submit" onPress={handleLogin} style={styles.button}>
+              <Button type="submit" style={styles.button}>
                 Suivant
               </Button>
-              <Button onPress={handlePreviousStep} style={styles.button}>
+              <Button onClick={handlePreviousStep} style={styles.button}>
                 Précédent
               </Button>
             </form>
           )}
           {step === 2 && (
-            <div style={styles.verificationContainer}>
+            <form onSubmit={handleVerifyOTP} style={styles.verificationContainer}>
               <h3>Vérification</h3>
               <p>Veuillez entrer le code OTP envoyé à votre téléphone.</p>
               <Input
@@ -194,10 +190,10 @@ export default function Login() {
                 required
                 style={styles.input}
               />
-              <Button onPress={handleVerifyOTP} style={styles.button}>
+              <Button type="submit" style={styles.button}>
                 Valider
               </Button>
-            </div>
+            </form>
           )}
           <p style={styles.assistance}>Numéro d'assistance : +221 33 123 45 67</p>
         </div>
